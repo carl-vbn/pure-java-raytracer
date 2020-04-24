@@ -15,8 +15,6 @@ public class AnimationRenderer {
     private static Vector3 secondPosition;
     private static float secondYaw, secondPitch;
 
-    private static int outputWidth = 1920, outputHeight = 1080;
-
     public static void captureFirstPosition(Camera camera) {
         firstPosition = camera.getPosition().clone();
         firstYaw = camera.getYaw();
@@ -30,7 +28,7 @@ public class AnimationRenderer {
     }
 
 
-    public static void renderImageSequence(Scene scene, File outputDirectory, int frameCount, float resolution) throws IOException {
+    public static void renderImageSequence(Scene scene, File outputDirectory, int outputWidth, int outputHeight, int frameCount, float resolution, boolean postProcessing) throws IOException {
         for (int frame = 0; frame<frameCount; frame++) {
             float t = (float)frame/(frameCount-1);
             Vector3 position = Vector3.lerp(firstPosition, secondPosition, t);
@@ -42,7 +40,9 @@ public class AnimationRenderer {
             cam.setYaw(yaw);
             cam.setPitch(pitch);
             BufferedImage frameBuffer = new BufferedImage(outputWidth, outputHeight, BufferedImage.TYPE_INT_RGB);
-            Renderer.renderScenePostProcessed(scene, frameBuffer.getGraphics(), outputWidth, outputHeight, resolution);
+
+            if (postProcessing) Renderer.renderScenePostProcessed(scene, frameBuffer.getGraphics(), outputWidth, outputHeight, resolution);
+            else Renderer.renderScene(scene, frameBuffer.getGraphics(), outputWidth, outputHeight, resolution);
 
             ImageIO.write(frameBuffer, "PNG", new File(outputDirectory, frame+".png"));
 

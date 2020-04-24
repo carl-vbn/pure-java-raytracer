@@ -282,6 +282,10 @@ public class Viewport extends JPanel {
         this.resolution = resolution;
     }
 
+    public boolean isPostProcessingEnabled() {
+        return postProcessing;
+    }
+
     public void setPostProcessingEnabled(boolean postProcessing) {
         this.postProcessing = postProcessing;
     }

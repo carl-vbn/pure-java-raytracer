@@ -34,14 +34,17 @@ public class Main {
         frame.setVisible(true);
 
         JDialog animationDialog = new JDialog(frame, "Animation");
+
+        SettingsPanel settingsPanel = new SettingsPanel(viewport, animationDialog);
+
         animationDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         animationDialog.setSize(300, 150);
-        animationDialog.add(new AnimationPanel(viewport));
+        animationDialog.add(new AnimationPanel(viewport, settingsPanel));
         animationDialog.setLocationRelativeTo(frame);
 
         settingsDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         settingsDialog.setSize(350, 600);
-        settingsDialog.add(new SettingsPanel(viewport, animationDialog));
+        settingsDialog.add(settingsPanel);
         settingsDialog.setVisible(true);
 
         viewport.runMainLoop();

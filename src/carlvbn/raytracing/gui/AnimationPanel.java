@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class AnimationPanel extends JPanel {
-    public AnimationPanel(Viewport viewport) {
+    public AnimationPanel(Viewport viewport, SettingsPanel settingsPanel) {
         JButton btnFirstPos;
         JButton btnSecondPos;
         JLabel lbLabel0;
@@ -119,8 +119,12 @@ public class AnimationPanel extends JPanel {
         btnSecondPos.addActionListener(e -> AnimationRenderer.captureSecondPosition(viewport.getScene().getCamera()));
 
         btnStart.addActionListener(e -> {
+            File outputDir = new File("image_sequence");
+            if (!outputDir.exists())
+                outputDir.mkdir();
+
             try {
-                AnimationRenderer.renderImageSequence(viewport.getScene(), new File("image_sequence"), (int)spnFrameCount.getValue(), (int)spnResolution.getValue()/100F);
+                AnimationRenderer.renderImageSequence(viewport.getScene(), outputDir, settingsPanel.getOutputWidth (), settingsPanel.getOutputHeight(), (int)spnFrameCount.getValue(), (int)spnResolution.getValue()/100F, viewport.isPostProcessingEnabled());
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(viewport, ex.toString(), "Failed to save image sequence.", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();

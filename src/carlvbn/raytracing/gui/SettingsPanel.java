@@ -22,6 +22,7 @@ import java.util.Random;
 
 public class SettingsPanel extends JPanel {
     private int selectedSkyboxIndex;
+    private JSpinner spImageWidth, spImageHeight;
 
     public SettingsPanel(Viewport viewport, JDialog animationDialog) {
         JSlider sdResolution;
@@ -40,7 +41,6 @@ public class SettingsPanel extends JPanel {
         JLabel lbSkybox, lbScene;
         JComboBox<String> cbScene, cbSkybox;
         JLabel lbOutRes;
-        JSpinner spImageWidth, spImageHeight;
         JButton btnRenderImage, btnShowAnimationDialog;
         JCheckBox cbxPostProcessing;
         JLabel lbBloomRadius;
@@ -548,7 +548,7 @@ public class SettingsPanel extends JPanel {
 
         btnRenderImage.addActionListener(e -> {
             try {
-                viewport.renderToImage((int)spImageWidth.getValue(), (int)spImageHeight.getValue());
+                viewport.renderToImage(getOutputWidth(), getOutputHeight());
             } catch (IOException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(viewport, ex.toString(), "Could not save image", JOptionPane.ERROR_MESSAGE);
@@ -578,5 +578,13 @@ public class SettingsPanel extends JPanel {
         sdBloomIntensity.setEnabled(false);
         lbBloomRadius.setEnabled(false);
         lbBloomIntensity.setEnabled(false);
+    }
+
+    public int getOutputWidth() {
+        return (int) spImageWidth.getValue();
+    }
+
+    public int getOutputHeight() {
+        return (int) spImageHeight.getValue();
     }
 }
