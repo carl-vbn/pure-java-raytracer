@@ -1,0 +1,78 @@
+package carlvbn.raytracing.solids;
+
+import carlvbn.raytracing.pixeldata.Color;
+import carlvbn.raytracing.math.Ray;
+import carlvbn.raytracing.math.Vector3;
+
+public class Box extends Solid {
+    private Vector3 min, max;
+
+    public Box(Vector3 position, Vector3 scale, Color color, float reflectivity) {
+        super(position, color, reflectivity);
+        this.max = position.add(scale.multiply(0.5F));
+        this.min = position.subtract(scale.multiply(0.5F));
+    }
+
+    @Override
+    public Vector3 calculateIntersection(Ray ray) {
+        float t = getIntersectionDistance(ray.getOrigin(), ray.getDirection());
+        if (t == Float.POSITIVE_INFINITY) {
+            return null;
+        } else {
+            return ray.getOrigin().add(ray.getDirection().multiply(t));
+        }
+    }
+
+    // Adapted from https://github.com/stackgl/ray-aabb-intersection/blob/master/index.js
+    public float getIntersectionDistance (Vector3 ro, Vector3 rd) {
+        float lo = Float.NEGATIVE_INFINITY;
+        float hi = Float.POSITIVE_INFINITY;
+
+        for (int i = 0; i < 3; i++) {
+            float dimLo, dimHi;
+
+            if (i == 0) {
+                dimLo = (min.getX() - ro.getX()) / rd.getX();
+                dimHi = (max.getX() - ro.getX()) / rd.getX();
+            } else if (i == 1) {
+                dimLo = (min.getY() - ro.getY()) / rd.getY();
+                dimHi = (max.getY() - ro.getY()) / rd.getY();
+            } else {
+                dimLo = (min.getZ() - ro.getZ()) / rd.getZ();
+                dimHi = (max.getZ() - ro.getZ()) / rd.getZ();
+            }
+
+            if (dimLo > dimHi) {
+                float tmp = dimLo;
+                dimLo = dimHi;
+                dimHi = tmp;
+            }
+
+            if (dimHi < lo || dimLo > hi) {
+                return Float.POSITIVE_INFINITY;
+            }
+
+            if (dimLo > lo) lo = dimLo;
+            if (dimHi < hi) hi = dimHi;
+        }
+
+        return lo > hi ? Float.POSITIVE_INFINITY : lo;
+    }
+
+    public boolean contains(Vector3 point) {
+        return point.getX() >= min.getX() && point.getY() >= min.getY() && point.getZ() >= min.getZ() && point.getX() <= max.getX() && point.getY() <= max.getY() && point.getZ() <= max.getZ();
+    }
+
+    @Override
+    public Vector3 getNormalAt(Vector3 point) {
+        Vector3 direction = point.subtract(position);
+        float biggestValue = Math.max(Math.max(Math.abs(direction.getX()), Math.abs(direction.getY())),Math.abs(direction.getZ()));
+        if (biggestValue == Math.abs(direction.getX())) {
+            return new Vector3(direction.getX(), 0,0).normalize();
+        } else if (biggestValue == Math.abs(direction.getY())) {
+            return new Vector3(0, direction.getY(), 0).normalize();
+        } else {
+            return new Vector3(0, 0, direction.getZ()).normalize();
+        }
+    }
+}
