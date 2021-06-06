@@ -68,8 +68,8 @@ public class GaussianBlur {
     }
 
     // Currently unused due to kernel being hardcoded
-    private float gaussianDistribution(float x, float sigma) {
-        return (float) (1/Math.sqrt(2*Math.PI*sigma*sigma)*Math.exp(-(x*x)/(2*sigma*sigma))); // https://en.wikipedia.org/wiki/Gaussian_blur
-    }
+    //private float gaussianDistribution(float x, float sigma) {
+    //    return (float) (1/Math.sqrt(2*Math.PI*sigma*sigma)*Math.exp(-(x*x)/(2*sigma*sigma))); // https://en.wikipedia.org/wiki/Gaussian_blur
+    //}
 
 }
