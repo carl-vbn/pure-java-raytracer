@@ -1,7 +1,6 @@
 package carlvbn.raytracing.gui;
 
 import carlvbn.raytracing.rendering.AnimationRenderer;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;

@@ -5,7 +5,6 @@ import carlvbn.raytracing.math.Vector3;
 import carlvbn.raytracing.solids.Solid;
 import carlvbn.raytracing.math.Ray;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

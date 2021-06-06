@@ -38,7 +38,7 @@ public class PixelBuffer {
                 PixelData pxl = pixels[i][j];
                 PixelData otherPxl = other.pixels[i][j];
                 if (pxl != null && otherPxl != null) {
-                    float brightnessB4 = pixels[i][j].getColor().getLuminance();
+                    //float brightnessB4 = pixels[i][j].getColor().getLuminance();
                     pixels[i][j].add(otherPxl);
                 }
             }

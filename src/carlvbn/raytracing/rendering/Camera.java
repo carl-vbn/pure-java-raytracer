@@ -2,8 +2,6 @@ package carlvbn.raytracing.rendering;
 
 import carlvbn.raytracing.math.Vector3;
 
-import java.util.Vector;
-
 public class Camera {
     private Vector3 position;
     private float yaw;
