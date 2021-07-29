@@ -1,19 +1,16 @@
 package carlvbn.raytracing.rendering;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import carlvbn.raytracing.math.Ray;
 import carlvbn.raytracing.math.RayHit;
 import carlvbn.raytracing.math.Vector3;
 import carlvbn.raytracing.solids.Solid;
-import carlvbn.raytracing.math.Ray;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Scene {
     private Camera camera;
     private Light light;
     private CopyOnWriteArrayList<Solid> solids;
-    //private List<Solid> solids;
     private Skybox skybox;
 
     public Scene() {
@@ -33,7 +30,7 @@ public class Scene {
 
     public RayHit raycast(Ray ray) {
         RayHit closestHit = null;
-        for (Solid solid : solids) { // .toArray(new Solid[0])) {
+        for (Solid solid : solids) {
             if (solid == null)
                 continue;
 
