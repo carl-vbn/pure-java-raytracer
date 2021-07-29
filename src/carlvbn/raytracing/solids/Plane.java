@@ -31,13 +31,24 @@ public class Plane extends Solid {
     @Override
     public Color getTextureColor(Vector3 point) {
         if (checkerPattern) {
-            if ((int)point.getX() % 2 == 0 ^ (int)point.getZ() % 2 != 0) {
-                return Color.GRAY;
+            // in first or third quadrant of the checkerplane
+            if (((point.getX() > 0) & (point.getZ() > 0)) || ((point.getX() < 0) & (point.getZ() < 0))) {
+                if ((int)point.getX() % 2 == 0 ^ (int)point.getZ() % 2 != 0) {
+                    return Color.GRAY;
+                } else {
+                    return Color.DARK_GRAY;
+                }
             } else {
-                return Color.DARK_GRAY;
+                // in second or fourth quadrant of the checkerplane
+                if ((int)point.getX() % 2 == 0 ^ (int)point.getZ() % 2 != 0) {
+                    return Color.DARK_GRAY;
+                } else {
+                    return Color.GRAY;
+                }
             }
         } else {
             return getColor();
         }
     }
+
 }
